@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Somu Stream</title>
+     <link rel="icon" type="image/png" href="logo.png">
+<style>
+        /* Favicon icon-a round-a katra CSS code */
+        link[rel="icon"] {
+            border-radius: 50%;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink:      #e91e8c;
+            --pink-light:#ff4db8;
+            --blue:      #0a84ff;
+            --bg:        #080b14;
+            --surface:   #0f1525;
+            --surface2:  #16203a;
+            --border:    rgba(233,30,140,0.18);
+            --muted:     #7a8baa;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ── Ambient blobs ── */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(233,30,140,0.1) 0%, rgba(10,132,255,0.04) 55%, transparent 80%);
+            top: -150px; right: -150px;
+            z-index: 0; pointer-events: none;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(10,132,255,0.1) 0%, rgba(233,30,140,0.03) 55%, transparent 80%);
+            bottom: -120px; left: -120px;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: rgba(10,13,22,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0 40px;
+            height: 72px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(233,30,140,0.12);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #fff;
+            text-decoration: none;
+            display: flex; align-items: center;
+            cursor: pointer;
+            -webkit-user-select: none; user-select: none;
+        }
+        .brand-logo .s1 {
+            background: linear-gradient(135deg, var(--pink-light), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .brand-logo .s2 {
+            background: linear-gradient(135deg, var(--blue), #60c0ff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .direct-logout-btn {
+            background: rgba(255,51,68,0.08);
+            border: 1px solid rgba(255,51,68,0.22);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #ff3344;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.2s;
+            -webkit-user-select: none; user-select: none;
+        }
+        .direct-logout-btn:hover {
+            background: #ff3344; color: #fff;
+            box-shadow: 0 0 20px rgba(255,51,68,0.3);
+        }
+
+        /* ── Utility bar ── */
+        .utility-hubbar {
+    max-width: 1400px;
+    margin: 28px auto 8px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column; /* Row layout-ai maatri keezha keezha vara vaikiradhu */
+    align-items: flex-start; /* Left side-la align aaga */
+    gap: 16px; /* Tabs matrum search bar-ku idaiye gap */
+    position: relative; z-index: 5;
+}
+
+
+        .myspace-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, rgba(233,30,140,0.12), rgba(10,132,255,0.12));
+            border: 1px solid rgba(233,30,140,0.3);
+            padding: 11px 24px;
+            border-radius: 30px;
+            color: var(--pink-light);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: all 0.25s;
+            -webkit-user-select: none; user-select: none;
+        }
+        .myspace-pill:hover {
+            background: linear-gradient(135deg, rgba(233,30,140,0.25), rgba(10,132,255,0.2));
+            border-color: var(--pink);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(233,30,140,0.2);
+        }
+
+        /* Hotstar Style Tab Buttons */
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+        }
+        .tab-btn {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--muted);
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        .tab-btn:hover {
+            color: #fff;
+            border-color: rgba(10, 132, 255, 0.4);
+            background: rgba(10, 132, 255, 0.05);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--pink), var(--blue));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(233, 30, 140, 0.3);
+        }
+
+        .search-container {
+    position: relative;
+    width: 100%; 
+    max-width: 100%; /* Desktop-leyum keezha varumbodhu full width screen extend aaga */
+}
+
+        .search-bar {
+            width: 100%;
+            padding: 13px 18px 13px 46px;
+            background: var(--surface2);
+            border: 1px solid rgba(255,255,255,0.07);
+            color: #fff;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            -webkit-user-select: text; user-select: text;
+        }
+        .search-bar::placeholder { color: rgba(122,139,170,0.6); }
+        .search-bar:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(233,30,140,0.12);
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px; top: 50%;
+            transform: translateY(-50%);
+            width: 16px; height: 16px;
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 2.5;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* ── Main container ── */
+        .main-container {
+            position: relative; z-index: 1;
+            padding: 20px 40px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #e1e6f0;
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 24px;
+            -webkit-user-select: none; user-select: none;
+        }
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 3px; bottom: 3px; width: 4px;
+            background: linear-gradient(to bottom, var(--pink), var(--blue));
+            border-radius: 2px;
+        }
+
+        /* ── Grid ── */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 26px;
+        }
+
+        /* ── Movie card ── */
+        .movie-card {
+            background: var(--surface);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+            /* Transition ultra-smooth cubic-bezier setting */
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            -webkit-user-select: none; user-select: none;
+        }
+        
+        /* Mobile and Desktop Ella views-leyum hover trigger panna main line-laye transform thandhaachu */
+        .movie-card:hover {
+            transform: scale(1.05) translateY(-10px); 
+            border-color: rgba(233,30,140,0.6); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 
+                        0 0 15px rgba(233,30,140,0.35),   
+                        0 0 30px rgba(0,210,255,0.25);    
+        }
+        
+        @media (min-width: 1024px) {
+            .movie-card:hover {
+                /* Desktop alignment balance config code block intact */
+                transform: scale(1.05) translateY(-10px); 
+            }
+        }
+
+        .thumbnail-placeholder {
+            width: 100%; height: 250px;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 800; font-size: 22px; color: #fff;
+            position: relative;
+            background-size: cover; background-position: center;
+            background-color: var(--surface2);
+            border-radius: 14px 14px 0 0;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        /* Card hover aagumbodhu thumbnail pic sleek zoom linear factor upgrade */
+        .movie-card:hover .thumbnail-placeholder {
+            transform: scale(1.08);
+        }
+        
+        .thumbnail-placeholder::after {
+            content: "";
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,13,22,0.85), transparent 60%);
+            pointer-events: none;
+            border-radius: 14px 14px 0 0;
+        }
+
+        /* ── Hover overlay ── */
+        .card-action-overlay {
+            position: absolute; inset: 0;
+            background: rgba(8,11,20,0.88);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 12px;
+            opacity: 0; z-index: 5;
+            transition: opacity 0.3s;
+        }
+        .movie-card:hover .card-action-overlay { opacity: 1; }
+
+        .action-btn {
+            width: 75%;
+            padding: 11px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            -webkit-user-select: none; user-select: none;
+        }
+        .action-btn:active { transform: scale(0.95); }
+
+        .btn-play {
+            background: linear-gradient(135deg, var(--pink), var(--blue));
+            color: #fff;
+        }
+        .btn-play:hover {
+            box-shadow: 0 6px 18px rgba(233,30,140,0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-info {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e1e6f0;
+        }
+        .btn-info:hover { background: rgba(255,255,255,0.14); }
+
+
+        /* ── Movie info ── */
+        .movie-info {
+            padding: 14px 15px;
+            background: var(--surface);
+            position: relative;
+        }
+        .movie-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; max-width: 80%; }
+        .movie-desc  { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+
+        /* ── Rate button ── */
+        .btn-corner-rate {
+            position: absolute; bottom: 14px; right: 14px;
+            background: linear-gradient(135deg, rgba(233,30,140,0.12), rgba(10,132,255,0.12));
+            border: 1px solid rgba(233,30,140,0.3);
+            color: var(--pink-light);
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px; font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 4px;
+            transition: all 0.2s;
+            -webkit-user-select: none; user-select: none;
+        }
+        .btn-corner-rate:hover {
+            background: linear-gradient(135deg, var(--pink), var(--blue));
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(233,30,140,0.35);
+        }
+        /* ── Theatre modal ── */
+        .theatre-overlay-panel {
+            position: fixed; inset: 0;
+            background: rgba(4,6,12,0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .theatre-overlay-panel.active { opacity: 1; pointer-events: auto; }
+
+        .theatre-wrapper {
+            position: relative;
+            width: 90%; max-width: 960px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 16px; 
+            overflow: visible; /* Hidden maathi overflow visible aakiruken button velila theriya */
+            border: 1px solid rgba(233,30,140,0.25);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 50px rgba(233,30,140,0.12);
+        }
+        .theatre-wrapper iframe { width: 100%; height: 100%; border: none; }
+
+        .close-theatre-btn {
+            position: absolute; 
+            top: -48px;  /* Box-ku mela structures thalli paraka coordinate set panni irukaen */
+            right: 0;    /* Box-oda alignment alignment line ku correct-ah matching edge */
+            z-index: 2100;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            color: #fff;
+            font-size: 13px; font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-user-select: none; user-select: none;
+        }
+        .close-theatre-btn:hover {
+            background: linear-gradient(135deg, var(--pink), var(--blue));
+            border-color: transparent;
+        }
+         @media (max-width: 768px) {
+            .navbar, .utility-hubbar, .main-container { padding-left: 18px; padding-right: 18px; }
+            .utility-hubbar { flex-direction: column; align-items: flex-start; gap: 14px; }
+            .category-tabs { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+            .search-container { max-width: 100%; }
+            /* Mobile button override parameters layout configuration fully removed */
+        }
+
+    </style>
+</head>
+<body oncontextmenu="return false;">
+<div class="theatre-overlay-panel" id="theatre-panel">
+   <div class="theatre-wrapper">
+    <button class="close-theatre-btn" onclick="closeTheatre()">✕ Close Player</button>
+    <iframe id="video-player-frame" src="" sandbox="allow-scripts allow-same-origin" allowfullscreen></iframe>
+</div>
+</div>
+<nav class="navbar">
+    <a href="#" class="brand-logo"><span class="s1">Somu</span><span class="s2">Stream</span></a>
+    <button class="direct-logout-btn" onclick="triggerLogout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Log Out
+    </button>
+</nav>
+
+<div class="utility-hubbar">
+    <div class="category-tabs">
+        <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
+        <button class="tab-btn" onclick="filterCategory('action', this)">Action</button>
+        <button class="tab-btn" onclick="filterCategory('english', this)">English</button>
+         <button class="tab-btn" onclick="filterCategory('love', this)">Love</button>
+        <button class="tab-btn" onclick="filterCategory('crime', this)">Crime</button>
+        <button class="tab-btn" onclick="filterCategory('comedy', this)">Comedy</button>
+        <button class="tab-btn" onclick="filterCategory('horror', this)">Horror</button>
+        <button class="tab-btn" onclick="filterCategory('drama', this)">Drama</button>
+    </div>
+    
+    <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-bar" id="search-input" placeholder="Search Movies or Shows..." autocomplete="off">
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="section-title" id="grid-title">Trending Movies & Shows</div>
+    <div class="grid-container" id="movie-grid">
+      <div class="movie-card" data-category="love comedy">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('don.jpeg');">
+                Don
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt10709484')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Don (2022):Follows the life of a youngster from college to his marriage.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Don</div>
+                <div class="movie-desc">Love & Comedy</div>
+                <button class="btn-corner-rate" onclick="alert('Don Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+       <div class="movie-card" data-category="action comedy">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('Maanaadu.jpeg');">
+                Maanaadu
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt4983780')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Maanaadu (2021): On the day of a public conference by the state's Chief Minister, his bodyguard and a police officer are stuck in a time loop.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Maanaadu</div>
+                <div class="movie-desc">Action & Comedy</div>
+                <button class="btn-corner-rate" onclick="alert('Maanaadu Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+      
+      <div class="movie-card" data-category="drama comedy">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('mei.jpg');">
+                Meiyazhagan
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt26758372')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Meiyazhagan (2024): A man's life is changed when he bumps into someone from his hometown in this moving Tamil-language drama; gentle scenes are occasionally punctuated by sporting threat and recollections of violence.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Meiyazhagan</div>
+                <div class="movie-desc">Comedy & Drama</div>
+                <button class="btn-corner-rate" onclick="alert('Meiyazhagan Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+      
+       <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('spiderman.jpeg');">
+                Spider Man
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt0145487')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Spider Man (2002): A shy teenager is bitten by a genetically modified spider and uses his new spider-like abilities to fight injustice as a masked superhero.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('leo.jpeg');">
+                Leo
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt15654328')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Leo (2023): Parthiban is a mild-mannered cafe owner who fends off a gang of murderous thugs and gains attention from a drug cartel claiming he was once a part of them.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Leo</div>
+                <div class="movie-desc">Action Thriller</div>
+                <button class="btn-corner-rate" onclick="alert('Leo Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="english drama">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('michael.jpeg');">
+                Michael
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt11378946')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Michael (2026): The story of King of Pop Michael Jackson. From his childhood as the star of the Jackson 5, through times of abuse by his father Joe Jackson, to breaking away and making the hit album Thriller and claiming his independence as a solo artist.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Micheal (Biography)</div>
+                <div class="movie-desc">Vibe & Bio (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Michael Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+         <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('spiderman2.jpeg');">
+                Spider Man 2
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt0316654')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Spider Man 2 (2004): Peter Parker is beset with troubles in his failing personal life as he battles a former brilliant scientist named Otto Octavius.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man 2</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man 2 Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('vikram.jpg');">
+                Vikram
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt9179430')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Vikram (2022): A covert investigation changes its course when special officer Amar encounters an unrelenting Vikram and his pursuit to take down a notorious drug cartel.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Vikram</div>
+                <div class="movie-desc">Crime Action</div>
+                <button class="btn-corner-rate" onclick="alert('Vikram Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('spiderman3.jpeg');">
+                Spider Man 3
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt0413300')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Spider Man 3 (2007): A strange black entity from another world bonds with Peter Parker and causes inner turmoil as he contends with new villains, temptations, and revenge..')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man 3</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man 3 Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('master.jpeg');">
+                Master
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt10579952')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Master (2021): An alcoholic professor is sent to a juvenile school, where he clashes with a gangster who uses the school children for criminal activities.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Master</div>
+                <div class="movie-desc">Action Drama</div>
+                <button class="btn-corner-rate" onclick="alert('Master Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('goat.jpeg');">
+                G.O.A.T
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt27487934')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('G.O.A.T (2024): Gandhi is a hostage negotiator, field agent, and spy working for the Special Anti-Terrorist Squad (SATS). After years of service, he is called back for a critical mission that sets him on a dangerous collision course with his own past.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">The Greatest of All Time</div>
+                <div class="movie-desc">Action & Thriller</div>
+                <button class="btn-corner-rate" onclick="alert('G.O.A.T Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('rrr.jpeg');">
+                RRR
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt8178634')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('RRR (2022): A fearless warrior on a perilous mission comes face to face with a steely cop serving British forces in this epic saga set in pre-independent India.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">RRR</div>
+                <div class="movie-desc">Period Action</div>
+                <button class="btn-corner-rate" onclick="alert('RRR Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('amaran.jpg');">
+                Amaran
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt27118357')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Amaran (2024): The life of Major Mukund Varadarajan and is set against the backdrop of the Qazipathri Operation in Shopian, Kashmir, which took place back in 2014.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Amaran</div>
+                <div class="movie-desc">Action & Love</div>
+                <button class="btn-corner-rate" onclick="alert('Amaran Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('kaithi.jpeg');">
+                Kaithi
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt9900782')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Kaithi (2019):Dilli, an ex-convict, endeavours to meet his daughter for the first time after leaving prison. However, his attempts are interrupted due to a drug raid planned by Inspector Bejoy.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Kaithi</div>
+                <div class="movie-desc">Action & Crime</div>
+                <button class="btn-corner-rate" onclick="alert('Kaithi Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action english">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('avengers.jpeg');">
+                Avengers Endgame
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt4154796')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Avengers(2019):  After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Avengers Endgame</div>
+                <div class="movie-desc">Sci-Fi Hero Epic (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Avengers Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('youth.jpeg');">
+                Youth
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt38693888')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Youth (2026):15-year-old Praveen enters adolescence determined to find true love before school ends. Through relationships and heartbreaks, he discovers love's real meaning, shaping his maturity and outlook on life.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Youth</div>
+                <div class="movie-desc">Love & Emotion</div>
+                <button class="btn-corner-rate" onclick="alert('Youth Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="drama">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('pottru.jpeg');">
+                Soorarai Pottru
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt10189514')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Soorarai Pottru(2020): A determined villager challenges the aviation industry's elite by pursuing his vision of affordable air travel for all, despite numerous obstacles and setbacks.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Soorarai Pottru</div>
+                <div class="movie-desc">Biographical Drama</div>
+                <button class="btn-corner-rate" onclick="alert('Soorarai Pottru Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('beast.jpeg');">
+                Beast
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt11301946')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Beast (2022): A jaded former intelligence agent is pulled back into action when an attack at a mall creates a tense hostage situation.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Beast</div>
+                <div class="movie-desc">Action Thriller</div>
+                <button class="btn-corner-rate" onclick="alert('Beast Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('home3.jpeg');">
+                Spider Man No Way Home
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt10872600')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Spider Man No Way Home (2021): With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man No Way Home</div>
+                <div class="movie-desc">Action & Thriller (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man No Way Home Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+          <div class="movie-card" data-category="love comedy">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('dragon.jpeg');">
+                Dragon
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt32080876')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Dragon (2025): After a devastating breakup, troubled student Ragavan abandons his studies and enters the dangerous world of financial fraud, pursuing wealth and power while becoming entangled in escalating deception.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Dragon</div>
+                <div class="movie-desc">Love & Comedy</div>
+                <button class="btn-corner-rate" onclick="alert('Dragon Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('pushpa.jpg');">
+                Pushpa
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt9389998')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Pushpa (2021): A labourer rises through the ranks of a red sandalwood smuggling syndicate, making some powerful enemies in the process.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Pushpa</div>
+                <div class="movie-desc">Action Crime</div>
+                <button class="btn-corner-rate" onclick="alert('Pushpa Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('amazing.jpeg');">
+                The Amazing Spider Man 
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt0948470')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('The Amazing Spider Man (2012): After Peter Parker is bitten by a genetically altered spider, he gains newfound, spider-like powers and ventures out to save the city from the machinations of a mysterious reptilian foe.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">The Amazing Spider Man </div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('The Amazing Spider Man Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action comedy">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('jailer.jpeg');">
+                Jailer
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt11663228')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Jailer (2023): A retired jailer goes on a manhunt to find his son's killers. But the road leads him to a familiar, albeit a bit darker place. Can he emerge from this complex situation successfully?&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Jailer</div>
+                <div class="movie-desc">Action Comedy</div>
+                <button class="btn-corner-rate" onclick="alert('Jailer Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('home2.jpeg');">
+                Spider Man: Far from Home
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt6320628')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('Spider Man: Far from Home (2019): Peter Parker, the beloved superhero Spider-Man, faces four destructive elemental monsters while on holiday in Europe. Soon, he receives help from Mysterio, a fellow hero with mysterious origins.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man: Far from Home</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man: Far from Home Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action crime">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('kgf2.jpg');">
+                KGF 2
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt10698680')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;KGF Chapter 2 (2022): In the blood-soaked Kolar Gold Fields, Rocky's name strikes fear into his foes, while the government sees him as a threat to law and order. Rocky must battle threats from all sides for unchallenged supremacy.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">KGF 2</div>
+                <div class="movie-desc">Action & Drama (Telugu)</div>
+                <button class="btn-corner-rate" onclick="alert('KGF 2 Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+        <div class="movie-card" data-category="action">
+    <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('Kanguva.jpg');">
+        Kanguva
+        <div class="card-action-overlay">
+            <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt22036406')">▶ Play</button>
+            <!-- Fixed the quotes here -->
+            <button class="action-btn btn-info" onclick="alert('Kanguva (2024): A tribal warrior\'s fierce struggle to save his people a millennium ago is mysteriously linked to a bounty hunter\'s perilous quest in the present .')">ℹ More Info</button>
+        </div>
+    </div>
+    <div class="movie-info">
+        <div class="movie-title">Kanguva</div>
+        <div class="movie-desc">Action & Violence</div>
+        <button class="btn-corner-rate" onclick="alert('Kanguva Rated 5 Stars! ⭐')">★ Rate</button>
+    </div>
+</div>
+<div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('home.jpeg');">
+                Spider Man Homecoming
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt2250912')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert(&quot;Spider Man Homecoming(2017): Peter Parker tries to stop Adrian 'The Vulture' Toomes from selling weapons made with advanced Chitauri technology while trying to balance his life as an ordinary high school student.&quot;)">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">Spider Man Homecoming</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('Spider Man Homecoming Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+
+           <div class="movie-card" data-category="horror comedy">
+           <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('dd.jpg');">
+                DD Next Level
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt32864330')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('DD Next Level(2025): A sharp-witted film critic suddenly finds himself trapped inside the kind of movie he loves to ridicule.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">DD Next Level</div>
+                <div class="movie-desc">Horror & Comedy</div>
+                <button class="btn-corner-rate" onclick="alert('DD Next Level Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+        <div class="movie-card" data-category="action english love">
+            <div class="thumbnail-placeholder" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(15,21,37,0.9)), url('amazing2.jpeg');">
+               The Amazing Spider Man 2
+                <div class="card-action-overlay">
+                    <button class="action-btn btn-play" onclick="launchTheatre('https://streamimdb.ru/embed/movie/tt1872181')">▶ Play</button>
+                    <button class="action-btn btn-info" onclick="alert('The Amazing Spider Man 2 (2014): When New York is put under siege by Oscorp, it is up to Spider-Man to save the city he swore to protect as well as his loved ones.')">ℹ More Info</button>
+                </div>
+            </div>
+            <div class="movie-info">
+                <div class="movie-title">The Amazing Spider Man 2</div>
+                <div class="movie-desc">Action & Love (English)</div>
+                <button class="btn-corner-rate" onclick="alert('The Amazing Spider Man 2 Rated 5 Stars! ⭐')">★ Rate</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const panel = document.getElementById('theatre-panel');
+    const frame = document.getElementById('video-player-frame');
+    let currentCategory = 'all';
+
+    function launchTheatre(streamUrl) {
+        frame.src = streamUrl;
+        panel.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeTheatre() {
+        panel.classList.remove('active');
+        frame.src = "";
+        document.body.style.overflow = 'auto';
+    }
+
+    function triggerLogout() {
+        window.location.href = 'index.html';
+    }
+
+    // Hotstar Tab Filter System
+    function filterCategory(category, button) {
+        currentCategory = category;
+        
+        // Active tab button style change
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // Dynamic section title heading change
+        const titleMap = {
+            'all': 'Trending Movies & Shows',
+            'crime': 'Blockbuster Crime Movies',
+            'action': 'High-Octane Action',
+            'drama': 'Dramastic Movies',
+            'horror': 'Horror & Dark',
+            'comedy': 'Popular Comedy Movies',
+            'english': 'Hollywood English Movies',
+            'love': 'Popular Love Movies'
+        };
+        document.getElementById('grid-title').innerText = titleMap[category] || 'Stream Content';
+
+        // Filter executing main function
+        applyFilterAndSearch();
+    }
+
+    // Unified Filter & Search logic
+    function applyFilterAndSearch() {
+        const searchQuery = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.movie-card');
+
+        cards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            const cardTitle = card.querySelector('.movie-title').innerText.toLowerCase();
+
+            // CHANGED HERE: Space vttu split panni multi-category check panrom
+            const matchesCategory = (currentCategory === 'all' || (cardCategory && cardCategory.split(' ').includes(currentCategory)));
+            
+            // Check if search query matches
+            const matchesSearch = cardTitle.includes(searchQuery);
+
+            if (matchesCategory && matchesSearch) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+
+    // Attach search key listeners
+    document.getElementById('search-input').addEventListener('input', applyFilterAndSearch);
+    // ── SOMUSTREAM FULL KEYBOARD CONTROLLER SHORTCUTS ──
+document.addEventListener('keydown', function(event) {
+    const theatreOverlay = document.querySelector('.theatre-overlay-panel');
+    const iframe = document.querySelector('.theatre-wrapper iframe');
+
+    // Player modal active-ah open-la irundha mattum dhaan shortcuts work aaganum
+    if (!theatreOverlay || !theatreOverlay.classList.contains('active') || !iframe) {
+        return; 
+    }
+
+    // Input fields-la type pannumpodhu shortcuts trigger aagama block panra safety guard
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        return;
+    }
+
+    const key = event.key.toLowerCase();
+    
+    // Spacebar default page scrolling-ai thaduka
+    if (event.key === " " || key === "k" || key === "l" || key === "j" || event.key === "ArrowLeft" || event.key === "ArrowRight" || event.key === "ArrowUp" || event.key === "ArrowDown" || key === "m" || key === "f") {
+        event.preventDefault();
+    }
+
+    // Iframe postMessage framework control payload function
+    function sendPlayerCommand(method, value = null) {
+        iframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: method,
+            args: value !== null ? [value] : []
+        }), '*');
+    }
+
+    // Shortcut Logic Execution Matrix
+    switch (event.key) {
+        case " ":
+        case "k": // Play / Pause Toggle
+            // Note: Platform custom integration-ku thakka postMessage commands pass aagum
+            sendPlayerCommand('togglePlay');
+            break;
+
+        case "ArrowRight":
+        case "l": // Forward 10 Seconds
+            sendPlayerCommand('seekTo', 10); // Thilla forward offset value pass
+            break;
+
+        case "ArrowLeft":
+        case "j": // Rewind 10 Seconds
+            sendPlayerCommand('seekTo', -10); // Backtrack offset value pass
+            break;
+
+        case "ArrowUp": // Volume Increment +10%
+            sendPlayerCommand('setVolume', 'up');
+            break;
+
+        case "ArrowDown": // Volume Decrement -10%
+            sendPlayerCommand('setVolume', 'down');
+            break;
+
+        case "m": // Mute / Unmute Toggle
+            sendPlayerCommand('toggleMute');
+            break;
+
+        case "f": // Fullscreen Mode Toggle
+            const wrapper = document.querySelector('.theatre-wrapper');
+            if (!document.fullscreenElement) {
+                wrapper.requestFullscreen().catch(err => {
+                    console.log("Error enabling fullscreen: " + err.message);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+            break;
+    }
+});
+</script>
+</body>
+</html>
